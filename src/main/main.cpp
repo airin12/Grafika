@@ -307,7 +307,8 @@ void display(void)
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glDrawElements(GL_TRIANGLES, 3*2, GL_UNSIGNED_INT, 0);
 
-	modelView.translate(0.0f, 0.0f, 0.4f);
+	modelView.translate(0.0f, 0.0f, 0.22f);
+	modelView.rotate(1.55f, 1.0f, 0.0f, 0.0f);
 	/*modelViewStack.pop(&modelView);
 	modelViewStack.put(&modelView);
 	modelView.translate(0.0f, 0.0f, 0.6f);
