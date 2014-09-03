@@ -1,4 +1,4 @@
-﻿Build started 2014-09-03 20:59:24.
+﻿Build started 2014-09-03 21:21:00.
      1>Project "C:\Users\Marcin\Documents\Visual Studio 2010\Projects\Grafika_Projekt\Grafika_Projekt\Grafika_Projekt.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\Grafika_Projekt.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -21,4 +21,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.28
+Time Elapsed 00:00:01.30

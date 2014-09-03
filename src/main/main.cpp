@@ -307,12 +307,13 @@ void display(void)
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glDrawElements(GL_TRIANGLES, 3*2, GL_UNSIGNED_INT, 0);
 
-	modelView.translate(0.0f, 0.0f, 1.0f);
-	modelViewStack.pop(&modelView);
+	modelView.translate(0.0f, 0.0f, 0.4f);
+	/*modelViewStack.pop(&modelView);
 	modelViewStack.put(&modelView);
+	modelView.translate(0.0f, 0.0f, 0.6f);
 	modelView.rotate(angX, 1.0f, 0.0f, 0.0f);
 	modelView.rotate(angY, 0.0f, 1.0f, 0.0f);
-	modelView.rotate(angZ, 0.0f, 0.0f, 1.0f);
+	modelView.rotate(angZ, 0.0f, 0.0f, 1.0f);*/
 		// załadownanie do shadera bieżącego stanu macierzy widoku modelu
 	glUniformMatrix4fv(glGetUniformLocation(simplyShader, "modelViewMatrix"), 1, GL_TRUE, modelView.get());
 	// załadowanie do shadera wektora koloru obiektu
