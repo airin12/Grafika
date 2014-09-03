@@ -11,10 +11,22 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="D:\Grafika\z labow\04_ADS-Toon-2obj\main.cpp" />
-    <ClCompile Include="D:\Grafika\z labow\utils\src\obj.cpp" />
-    <ClCompile Include="D:\Grafika\z labow\utils\src\shaders.cpp" />
-    <ClCompile Include="D:\Grafika\z labow\utils\src\vecmatrix.cpp" />
+    <ClCompile Include="..\src\main\main.cpp" />
+    <ClCompile Include="..\src\utils\obj.cpp" />
+    <ClCompile Include="..\src\utils\shaders.cpp" />
+    <ClCompile Include="..\src\utils\vecmatrix.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\shaders\ambient_light_fs.glsl" />
+    <None Include="..\shaders\ambient_light_vs.glsl" />
+    <None Include="..\shaders\simply_light_fs.glsl" />
+    <None Include="..\shaders\simply_light_vs.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\util\include\obj.h" />
+    <ClInclude Include="..\util\include\shaders.h" />
+    <ClInclude Include="..\util\include\vecmatrix.h" />
+    <ClInclude Include="..\util\include\vectors.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{93CD6FBC-E2DD-4711-A415-517CA710D0BA}</ProjectGuid>

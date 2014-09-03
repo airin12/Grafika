@@ -19,19 +19,53 @@
     <Filter Include="Source Files\main">
       <UniqueIdentifier>{509066d5-4698-4fb4-bc93-d5ff7bf46615}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\shaders">
+      <UniqueIdentifier>{e59914a5-39a0-4fba-97e4-306bc16819a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\utils">
+      <UniqueIdentifier>{06e27a01-42f9-442e-adff-ec86f73f4b0c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="D:\Grafika\z labow\utils\src\obj.cpp">
-      <Filter>Source Files\utils</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Grafika\z labow\utils\src\shaders.cpp">
-      <Filter>Source Files\utils</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Grafika\z labow\utils\src\vecmatrix.cpp">
-      <Filter>Source Files\utils</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Grafika\z labow\04_ADS-Toon-2obj\main.cpp">
+    <ClCompile Include="..\src\main\main.cpp">
       <Filter>Source Files\main</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\utils\obj.cpp">
+      <Filter>Source Files\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\utils\shaders.cpp">
+      <Filter>Source Files\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\utils\vecmatrix.cpp">
+      <Filter>Source Files\utils</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\shaders\ambient_light_fs.glsl">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="..\shaders\ambient_light_vs.glsl">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="..\shaders\simply_light_fs.glsl">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="..\shaders\simply_light_vs.glsl">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\util\include\obj.h">
+      <Filter>Header Files\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\util\include\shaders.h">
+      <Filter>Header Files\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\util\include\vecmatrix.h">
+      <Filter>Header Files\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\util\include\vectors.h">
+      <Filter>Header Files\utils</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

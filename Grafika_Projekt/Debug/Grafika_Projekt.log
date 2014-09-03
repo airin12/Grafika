@@ -1,19 +1,19 @@
-﻿Build started 2014-09-03 18:01:36.
+﻿Build started 2014-09-03 20:59:24.
      1>Project "C:\Users\Marcin\Documents\Visual Studio 2010\Projects\Grafika_Projekt\Grafika_Projekt\Grafika_Projekt.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\Grafika_Projekt.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         D:\Programy\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt "D:\Grafika\z labow\04_ADS-Toon-2obj\main.cpp"
+         D:\Programy\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\src\main\main.cpp
          main.cpp
        Link:
-         D:\Programy\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Marcin\Documents\Visual Studio 2010\Projects\Grafika_Projekt\Debug\Grafika_Projekt.exe" /NOLOGO OpenGL32.lib freeglut.lib glew32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\Grafika_Projekt.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Marcin\Documents\Visual Studio 2010\Projects\Grafika_Projekt\Debug\Grafika_Projekt.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Marcin\Documents\Visual Studio 2010\Projects\Grafika_Projekt\Debug\Grafika_Projekt.lib" /MACHINE:X86 Debug\main.obj
+         D:\Programy\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Marcin\documents\visual studio 2010\Projects\Grafika_Projekt\Debug\Grafika_Projekt.exe" /NOLOGO OpenGL32.lib freeglut.lib glew32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\Grafika_Projekt.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Marcin\documents\visual studio 2010\Projects\Grafika_Projekt\Debug\Grafika_Projekt.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Marcin\documents\visual studio 2010\Projects\Grafika_Projekt\Debug\Grafika_Projekt.lib" /MACHINE:X86 Debug\main.obj
          Debug\obj.obj
          Debug\shaders.obj
          Debug\vecmatrix.obj
-         LINK : C:\Users\Marcin\Documents\Visual Studio 2010\Projects\Grafika_Projekt\Debug\Grafika_Projekt.exe not found or not built by the last incremental link; performing full link
-         Grafika_Projekt.vcxproj -> C:\Users\Marcin\Documents\Visual Studio 2010\Projects\Grafika_Projekt\Debug\Grafika_Projekt.exe
+         LINK : C:\Users\Marcin\documents\visual studio 2010\Projects\Grafika_Projekt\Debug\Grafika_Projekt.exe not found or not built by the last incremental link; performing full link
+         Grafika_Projekt.vcxproj -> C:\Users\Marcin\documents\visual studio 2010\Projects\Grafika_Projekt\Debug\Grafika_Projekt.exe
        Manifest:
-         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\Users\Marcin\Documents\Visual Studio 2010\Projects\Grafika_Projekt\Debug\Grafika_Projekt.exe;#1" /manifest Debug\Grafika_Projekt.exe.intermediate.manifest
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\Users\Marcin\documents\visual studio 2010\Projects\Grafika_Projekt\Debug\Grafika_Projekt.exe;#1" /manifest Debug\Grafika_Projekt.exe.intermediate.manifest
        FinalizeBuildStatus:
          Deleting file "Debug\Grafika_Projekt.unsuccessfulbuild".
          Touching "Debug\Grafika_Projekt.lastbuildstate".
@@ -21,4 +21,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.30
+Time Elapsed 00:00:01.28
