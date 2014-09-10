@@ -39,6 +39,9 @@
     <ClCompile Include="..\src\utils\vecmatrix.cpp">
       <Filter>Source Files\utils</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\utils\rails_generator.cpp">
+      <Filter>Source Files\utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\shaders\ambient_light_fs.glsl">
@@ -65,6 +68,9 @@
       <Filter>Header Files\utils</Filter>
     </ClInclude>
     <ClInclude Include="..\util\include\vectors.h">
+      <Filter>Header Files\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\util\include\rail_generator.h">
       <Filter>Header Files\utils</Filter>
     </ClInclude>
   </ItemGroup>

@@ -3,6 +3,7 @@
 #include <vecmatrix.h>
 #include <vectors.h>
 #include <obj.h>
+#include <rail_generator.h>
 
 // Załadowanie pliku nagłówkowego biblioteki GLEW - znajdują się w nim wszystkie
 // rozszerzenia biblioteki OpenGL również dla wersji wyższych niż 3.0
@@ -12,6 +13,8 @@
 #include <GL/gl.h>
 #include <iostream>
 
+
+const GLfloat pi = 3.14159265358979323846;
 using namespace std;
 
 // ustawienia parametrów perspektywy
@@ -21,7 +24,7 @@ GLfloat prScale = 1.0, prNear = 0.1f, prFar = 45.0f;
 GLuint simplyShader, ambientShader;
 
 // identyfikatory obiektów tablic wierchołków dla .obj i sześcianu
-GLuint cubeVertexArray, objVertexArray, floorVertexArray;
+GLuint cubeVertexArray, objVertexArray, floorVertexArray, railsVertexArray1, railsVertexArray2, barVertexArray;
 
 // obiekty reprezentujące odpowiednio macierz widoku modelu i projekcji (rzutowania)
 matrix modelView(4);
@@ -38,6 +41,42 @@ matrixStack modelViewStack;
 
 // obiekt reprezentujący bryłę wczytaną jako .obj
 objShape obj;
+
+rail r1, r2;
+bar b;
+
+GLfloat radius;
+GLfloat railHeight;
+GLfloat widthBetween;
+GLfloat railWidth;
+
+float mouseControlX=0.0f;
+float mouseControlY=0.0f;
+
+float deltaAngle = 0.0f;
+float angle;
+float lx,lz;
+int xOrigin = -1;
+
+int centralX=300;
+int centralY=300;
+
+int clickX;
+int clickY;
+
+float lastx = 0.0;
+float lasty = 0.0;
+
+float actualSpeed = 0.0f;
+float actualAcceleration = 0.0f;
+
+float minAcceleration = 0.0f;
+float maxAcceleration = 0.03f;
+
+bool ctrOn=false;
+bool accelerate=false;
+
+float mouseSpeed=0.01;
 
 //=============================================================================
 // utworzenie i wypełnienie danymi tablicy wierzchołków
@@ -81,6 +120,12 @@ void createVertexArray(GLuint vertexArray,
 //=============================================================================
 int init(char *objFileName)
 {
+	radius=2.0f;
+	railHeight=0.01f;
+	railWidth=0.01f;
+	widthBetween=0.15f;
+	generateRails(r1,r2,radius,0.01f,railWidth,railHeight,widthBetween,b);
+
 //   definicja sześchar *objFileNamecianu:
 // wierzchołki
 GLfloat cubeVertices[3*8] = {
@@ -121,10 +166,10 @@ GLuint cubeIndices[3*6*2] = {
 };
 
 GLfloat floorVertices[3*4] = {
-	-1.5f, -1.5f,  0.0f,
-	 1.5f, -1.5f,  0.0f,
-	-1.5f,  1.5f,  0.0f,
-	 1.5f,  1.5f,  0.0f
+	-10.0f, -10.0f,  0.0f,
+	 10.0f, -10.0f,  0.0f,
+	-10.0f,  10.0f,  0.0f,
+	 10.0f,  10.0f,  0.0f
 };
 
 GLfloat floorNormals[3*4] = {
@@ -142,7 +187,7 @@ GLuint floorIndices[3*2] = {
 	int objError;
 
 	// wczytanie obiektu z pliku .obj i przygotowanie go
-	if ( (objError = obj.readFromFile(objFileName)) )
+	if ( (objError = obj.readFromFile("../obj/loc.obj")) )
 		return objError;
 	obj.writeProps();
 	// przeskalowanie wczytanego obj, tak aby był wpisany w jednostkowy sześcian
@@ -216,6 +261,25 @@ GLuint floorIndices[3*2] = {
 		floorNormals, sizeof(floorNormals),
 		floorIndices, sizeof(floorIndices));
 
+
+	glGenVertexArrays(1, &railsVertexArray1);
+		createVertexArray(railsVertexArray1,
+		(GLfloat*)r1.vertices, 3*r1.nVertices*sizeof(GLfloat),
+		(GLfloat*)r1.normals, 3*r1.nNormals*sizeof(GLfloat),
+		(GLuint*)r1.faces, 3*r1.nFaces*sizeof(GLuint));
+
+		glGenVertexArrays(1, &railsVertexArray2);
+		createVertexArray(railsVertexArray2,
+		(GLfloat*)r2.vertices, 3*r2.nVertices*sizeof(GLfloat),
+		(GLfloat*)r2.normals, 3*r2.nNormals*sizeof(GLfloat),
+		(GLuint*)r2.faces, 3*r2.nFaces*sizeof(GLuint));
+
+		glGenVertexArrays(1, &barVertexArray);
+		createVertexArray(barVertexArray,
+		(GLfloat*)b.vertices, 3*b.nVertices*sizeof(GLfloat),
+		(GLfloat*)b.normals, 3*b.nNormals*sizeof(GLfloat),
+		(GLuint*)b.faces, 3*b.nFaces*sizeof(GLuint));
+
 	// włączenie wykorzystania bufora głębokości
 	glEnable(GL_DEPTH_TEST);
 
@@ -241,6 +305,45 @@ void reshape(int width, int height)
 	projection.setIdentity();
 	// ustawienie perspektywy (przemnożenie przez macierz rzutowania)
 	projection.perspective(prScale, prNear, prFar);
+}
+
+
+void drawRails(GLfloat radius, GLfloat step, matrix &modelView){
+	GLfloat redColor[4] = {1.0f, 0.0f, 0.0f, 1.0f};
+	GLfloat greenColor[4] = {0.0f, 1.0f, 0.0f, 1.0f};
+	GLfloat blueColor[4] = {0.0f, 0.0f, 1.0f, 1.0f};
+	GLfloat yellowColor[4] = {1.0f, 1.0f, 0.0f, 1.0f};
+	GLfloat cyanColor[4] = {0.0f, 1.0f, 1.0f, 1.0f};
+	GLfloat magentaColor[4] = {1.0f, 0.0f, 1.0f, 1.0f};
+
+	glUniformMatrix4fv(glGetUniformLocation(simplyShader, "modelViewMatrix"), 1, GL_TRUE, modelView.get());
+	// załadowanie do shadera wektora koloru obiektu
+	glUniform4fv(glGetUniformLocation(simplyShader, "inColor"), 1, yellowColor);
+
+	glBindVertexArray(railsVertexArray1);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	// narysowanie danych zawartych w tablicy wierzchołków .obj
+	glDrawElements(GL_TRIANGLES, 3*r1.nFaces, GL_UNSIGNED_INT, 0);
+
+	glBindVertexArray(railsVertexArray2);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	// narysowanie danych zawartych w tablicy wierzchołków .obj
+	glDrawElements(GL_TRIANGLES, 3*r2.nFaces, GL_UNSIGNED_INT, 0);
+
+
+	int numberOfBars = floor(radius/step);
+	GLfloat radians = (360.0f/numberOfBars)*(pi/180.0f);
+
+
+	for(int i=0;i<numberOfBars;i++){
+		glBindVertexArray(barVertexArray);
+		glUniformMatrix4fv(glGetUniformLocation(simplyShader, "modelViewMatrix"), 1, GL_TRUE, modelView.get());
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		// narysowanie danych zawartych w tablicy wierzchołków .obj
+		glDrawElements(GL_TRIANGLES, 3*b.nFaces, GL_UNSIGNED_INT, 0);
+		modelView.rotate(radians, 0.0f, 0.0f, 1.0f);
+	}
+	
 }
 
 //=============================================================================
@@ -281,15 +384,18 @@ void display(void)
 	// wykonanie przekształceń geometrycznych - przemnażanie bieżącej macierzy
 	// widoku modelu przez odpowiednią macierz przekształcenia
 	// Wpierw wykonywane są przekształcenia całego świata (obserwatora)
+	modelView.translate(translWorld[0], translWorld[1], translWorld[2]);
 	modelView.rotate(angWorldX, 1.0f, 0.0f, 0.0f);
 	modelView.rotate(angWorldY, 0.0f, 1.0f, 0.0f);
 	modelView.rotate(angWorldZ, 0.0f, 0.0f, 1.0f);
-	modelView.translate(translWorld[0], translWorld[1], translWorld[2]);
+	
 
 	modelViewStack.put(&modelView);
-	modelView.rotate(angX, 1.0f, 0.0f, 0.0f);
-	modelView.rotate(angY, 0.0f, 1.0f, 0.0f);
-	modelView.rotate(angZ, 0.0f, 0.0f, 1.0f);
+	//modelView.rotate(angX, 1.0f, 0.0f, 0.0f);
+	//modelView.rotate(angY, 0.0f, 1.0f, 0.0f);
+	///modelView.rotate(angZ, 0.0f, 0.0f, 1.0f);
+
+	
 
 		// włączenie tablicy wierzchołków sześcianu
 	glBindVertexArray(cubeVertexArray);
@@ -307,8 +413,21 @@ void display(void)
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glDrawElements(GL_TRIANGLES, 3*2, GL_UNSIGNED_INT, 0);
 
-	modelView.translate(0.0f, 0.0f, 0.22f);
+	//modelView.translate(0.0f, 0.0f, 0.22f);
+	modelViewStack.put(&modelView);
+	drawRails(radius,0.05f,modelView);
+	modelViewStack.pop(&modelView);
+
+	//glUniformMatrix4fv(glGetUniformLocation(simplyShader, "modelViewMatrix"), 1, GL_TRUE, modelView.get());
+	actualSpeed+=actualAcceleration;
+	if(!accelerate){
+		if(actualAcceleration>0.0f)
+			actualAcceleration-=0.00005f;
+	}
+	accelerate=false;
+	modelView.rotate(actualSpeed, 0.0f, 0.0f, 1.0f);
 	modelView.rotate(1.55f, 1.0f, 0.0f, 0.0f);
+	modelView.translate(0.0f, 0.1f+railHeight, radius+widthBetween/2);
 	/*modelViewStack.pop(&modelView);
 	modelViewStack.put(&modelView);
 	modelView.translate(0.0f, 0.0f, 0.6f);
@@ -316,10 +435,9 @@ void display(void)
 	modelView.rotate(angY, 0.0f, 1.0f, 0.0f);
 	modelView.rotate(angZ, 0.0f, 0.0f, 1.0f);*/
 		// załadownanie do shadera bieżącego stanu macierzy widoku modelu
+	
 	glUniformMatrix4fv(glGetUniformLocation(simplyShader, "modelViewMatrix"), 1, GL_TRUE, modelView.get());
-	// załadowanie do shadera wektora koloru obiektu
-	glUniform4fv(glGetUniformLocation(simplyShader, "inColor"), 1, yellowColor);
-
+	
 	// włączenie tablicy wierzchołków .obj
 	glBindVertexArray(objVertexArray);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -327,8 +445,12 @@ void display(void)
 	glDrawElements(GL_TRIANGLES, 3*obj.nFaces, GL_UNSIGNED_INT, 0);
 
 	
+
 	// pobranie macierzy widoku modelu ze stosu
+
 	modelViewStack.pop(&modelView);
+
+	
 
 	// wyłączenie tablic wierzhołków
 	glBindVertexArray(0);
@@ -347,7 +469,7 @@ void display(void)
 //=============================================================================
 void standardKbd(unsigned char key, int x, int y)
 {
-	GLint viewport[4]; // aktualne parametry okna
+	/*GLint viewport[4]; // aktualne parametry okna
 
 	// pobranie własności bieżącego okna - współrzędne x,y okna oraz jego
 	// szerokość i wysokość    
@@ -389,11 +511,60 @@ void standardKbd(unsigned char key, int x, int y)
 		case 'Z': angZ -= 0.1f;
 			break;
 		case 27: exit(0);
-	}
+	}*/
 	// wymuszenie odrysowania okna
 	// (wywołanie zarejestrowanej funcji do obsługi tego zdarzenia)
-	glutPostRedisplay();
+	//glutPostRedisplay();
 }
+void mouseButton(int button, int state, int x, int y) {
+
+	// only start motion if the left button is pressed
+	if (button == GLUT_LEFT_BUTTON) {
+
+		// when the button is released
+		if (state == GLUT_UP) {
+			
+		}
+		else  {// state = GLUT_DOWN
+			clickX=x;
+			clickY=y;
+		}
+	}
+}
+
+float horizontalAngle=0.0f;
+float verticalAngle=0.0f;
+
+void mouseMove(int x, int y) {
+
+	if(clickX!=0){
+		lastx=clickX;
+		clickX=0;
+	}
+	if(clickY!=0){
+		lasty=clickY;
+		clickY=0;
+	}
+	lastx = (float)x - lastx;
+    lasty = (float)y - lasty;
+
+	if(ctrOn){
+		translWorld[0] += lastx*mouseSpeed;
+		translWorld[1] -= lasty*mouseSpeed;
+	} else {
+		if((float)x > lastx)
+			angWorldZ+=(-lastx)*mouseSpeed;
+		else
+			angWorldZ+=(lastx*mouseSpeed);
+		if((float)y > lasty)
+			angWorldX+=(lasty*mouseSpeed);
+		else 
+			angWorldX+=(-lasty*mouseSpeed);
+	}
+    lastx = (float)x;
+    lasty = (float)y;
+}
+
 
 //=============================================================================
 // obsługa klawiatury - klawisze specjalne
@@ -402,32 +573,48 @@ void specialKbd (int key, int x, int y)
 {
 	// obsługa klawiszy funkcyjnych - analogicznie jak podstawowych
 	switch (key) {
-		case GLUT_KEY_RIGHT: translWorld[0] += 0.1f;
+		case GLUT_KEY_UP: 
+			accelerate=true;
+			if(actualAcceleration<maxAcceleration)
+				actualAcceleration+=0.0001f;
 			break;
-		case GLUT_KEY_LEFT: translWorld[0] -= 0.1f;
+		case GLUT_KEY_DOWN: 
+			if(actualAcceleration>minAcceleration)
+				actualAcceleration-=0.0001f;
 			break;
-		case GLUT_KEY_UP: translWorld[1] += 0.1f;
-			break;
-		case GLUT_KEY_DOWN: translWorld[1] -= 0.1f;
-			break;
-		case GLUT_KEY_PAGE_UP: translWorld[2] += 0.1f;
-			break;
-		case GLUT_KEY_PAGE_DOWN: translWorld[2] -= 0.1f;
+		case GLUT_KEY_CTRL_L:
+			ctrOn=(!ctrOn);
 			break;
 	}
+	cout<<actualAcceleration<<endl;
 	glutPostRedisplay();
 }
+
+void mouseWheel(int button, int dir, int x, int y)
+{
+    if (dir > 0)
+    {
+       translWorld[2] += 0.1f;
+    }
+    else
+    {
+        translWorld[2] -= 0.1f;
+    }
+
+    return;
+}
+
 
 //=============================================================================
 // główna funkcja programu
 //=============================================================================
 int main(int argc, char** argv)
 {
-	if (argc != 2) {
+	/*if (argc != 2) {
 		cout << "usage:" << endl;
 		cout << "   " << argv[0] << " <obj file>" << endl;
 		return 1;
-	}
+	}*/
 
 	// ustalenie odpowiedniego kontekstu renderowania
 	glutInitContextVersion(3, 1);
@@ -457,7 +644,7 @@ int main(int argc, char** argv)
 	cout << "Wersja biblioteki GLEW: " << glewGetString(GLEW_VERSION) << endl;
 
 	// wykonanie czynności przygotowawczych programu
-	if ( init(argv[1]) )
+	if ( init(argv[0]) )
 		return 3;
 
 	// ======================   funkcje callback ==================================
@@ -469,6 +656,9 @@ int main(int argc, char** argv)
 	glutKeyboardFunc(standardKbd);
 	// funkcja obsługująca naciśnięcie klawisza specjalnego z klawiatury
 	glutSpecialFunc(specialKbd);
+	glutMouseFunc(mouseButton);
+	glutMotionFunc(mouseMove);
+	glutMouseWheelFunc(mouseWheel);
 	glutIdleFunc(display);
 	//=============================================================================
 	// główna pętla programu

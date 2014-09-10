@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="..\src\main\main.cpp" />
     <ClCompile Include="..\src\utils\obj.cpp" />
+    <ClCompile Include="..\src\utils\rails_generator.cpp" />
     <ClCompile Include="..\src\utils\shaders.cpp" />
     <ClCompile Include="..\src\utils\vecmatrix.cpp" />
   </ItemGroup>
@@ -24,6 +25,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\util\include\obj.h" />
+    <ClInclude Include="..\util\include\rail_generator.h" />
     <ClInclude Include="..\util\include\shaders.h" />
     <ClInclude Include="..\util\include\vecmatrix.h" />
     <ClInclude Include="..\util\include\vectors.h" />
