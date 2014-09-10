@@ -187,7 +187,7 @@ GLuint floorIndices[3*2] = {
 	int objError;
 
 	// wczytanie obiektu z pliku .obj i przygotowanie go
-	if ( (objError = obj.readFromFile("../obj/loc.obj")) )
+	if ( (objError = obj.readFromFile("../obj/loc4.obj")) )
 		return objError;
 	obj.writeProps();
 	// przeskalowanie wczytanego obj, tak aby był wpisany w jednostkowy sześcian
@@ -427,7 +427,10 @@ void display(void)
 	accelerate=false;
 	modelView.rotate(actualSpeed, 0.0f, 0.0f, 1.0f);
 	modelView.rotate(1.55f, 1.0f, 0.0f, 0.0f);
+	
 	modelView.translate(0.0f, 0.1f+railHeight, radius+widthBetween/2);
+
+	modelView.rotate(1.55f, 0.0f, 1.0f, 0.0f);
 	/*modelViewStack.pop(&modelView);
 	modelViewStack.put(&modelView);
 	modelView.translate(0.0f, 0.0f, 0.6f);
