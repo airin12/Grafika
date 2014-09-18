@@ -1,4 +1,4 @@
-﻿Build started 2014-09-13 18:48:34.
+﻿Build started 2014-09-18 04:11:30.
      1>Project "C:\Users\marekmagik\git\Grafika\Grafika_Projekt\Grafika_Projekt.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\Grafika_Projekt.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -14,4 +14,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.12
+Time Elapsed 00:00:00.08

@@ -44,16 +44,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\shaders\ambient_light_fs.glsl">
+    <None Include="..\shaders\vertexShader.glsl">
       <Filter>Resource Files\shaders</Filter>
     </None>
-    <None Include="..\shaders\ambient_light_vs.glsl">
-      <Filter>Resource Files\shaders</Filter>
-    </None>
-    <None Include="..\shaders\simply_light_fs.glsl">
-      <Filter>Resource Files\shaders</Filter>
-    </None>
-    <None Include="..\shaders\simply_light_vs.glsl">
+    <None Include="..\shaders\fragmentShader.glsl">
       <Filter>Resource Files\shaders</Filter>
     </None>
   </ItemGroup>

@@ -100,7 +100,7 @@ rail::rail(GLfloat radius, GLfloat step, GLfloat width, GLfloat height){
 bar::bar(void){
 }
 
-bar::bar(GLfloat width, GLfloat height, GLfloat length, GLfloat initialX){
+bar::bar(GLfloat height, GLfloat width, GLfloat length, GLfloat initialX){
 	vertices = new vector3<GLfloat>[8];
 	normals = new vector3<GLfloat>[8];
 	faces = new vector3<GLint>[2*6];
@@ -145,5 +145,5 @@ bar::bar(GLfloat width, GLfloat height, GLfloat length, GLfloat initialX){
 void generateRails(rail &r1, rail &r2,GLfloat radius, GLfloat step, GLfloat width, GLfloat height, GLfloat widthBetween, bar &b){
 	r1= rail(radius,step,width,height);
 	r2= rail(radius+widthBetween,step,width,height);
-	b = bar(width,height,widthBetween+4*width,radius-2*width);
+	b = bar(width * 5,height,widthBetween+4*width,radius-2*width);
 }

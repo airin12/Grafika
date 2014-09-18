@@ -18,10 +18,8 @@
     <ClCompile Include="..\src\utils\vecmatrix.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\shaders\ambient_light_fs.glsl" />
-    <None Include="..\shaders\ambient_light_vs.glsl" />
-    <None Include="..\shaders\simply_light_fs.glsl" />
-    <None Include="..\shaders\simply_light_vs.glsl" />
+    <None Include="..\shaders\fragmentShader.glsl" />
+    <None Include="..\shaders\vertexShader.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\util\include\obj.h" />
@@ -29,6 +27,13 @@
     <ClInclude Include="..\util\include\shaders.h" />
     <ClInclude Include="..\util\include\vecmatrix.h" />
     <ClInclude Include="..\util\include\vectors.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{93CD6FBC-E2DD-4711-A415-517CA710D0BA}</ProjectGuid>
@@ -66,6 +71,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
